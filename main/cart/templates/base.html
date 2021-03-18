@@ -1,0 +1,43 @@
+{% load static %}
+{% load rest_framework %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}My Shop{% endblock %}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+</head>
+<body>
+    <div id="header">
+        <a href="/" class="logo">My shop</a>
+    </div>
+    <div id="subheader">
+        {% with total_products=cart|length %}
+            {% if cart|length > 0 %}
+                Your cart:
+                <a href="{% url 'cart_detail' %}">
+                    {{ total_products }} product{{ total_products|pluralize }},
+                    {{ cart.get_total_price }} Сом
+                </a>
+            {% else %}
+                Your cart is empty.
+            {% endif %}
+        {% endwith %}
+        {% if user.is_authenticated %}
+        {{ user.email }}   /  <a href="#">Logout</a>/
+        <a href="{% url 'user_detail' user.pk %}">Edit Profile</a>
+        {% else %}
+            <a href="{% url 'register' %}">Signup / </a>
+            <a href="#">Log-in</a>
+        {% endif %}
+        <a href="{% url 'search' %}"> / search</a>
+    </div>
+
+        {% block content %} {% endblock %}
+        {% block javascript %} {% endblock javascript %}
+
+</body>
+</html>

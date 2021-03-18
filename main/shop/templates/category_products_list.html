@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'product_list_filter' category.pk %}" method="get"><button type="submit">Filtrate</button></form>
+{% for product in products %}
+<div class="item">
+    <a href="{{ product.get_absolute_url }}">
+        <img src="{% if product.image %}{{ product.image.url }}
+        {% elif product.image_out_source %}{{ product.image_out_source }}
+        {% else %}{% static 'img/no_image.png' %}{% endif %}" width="150px" height="170">
+    </a>
+    <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+    <br>
+    {{ product.price }} Сом
+</div>
+
+{% endfor %}
+{% include 'pagination.html' with page=products %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% load rest_framework %}
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+
+<h1>Your shopping cart</h1>
+<table class="cart">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Remove</th>
+            <th>Unit price</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+<tbody>
+
+ {% for item in cart %}
+    {% with product=item.product %}
+        <tr>
+            <td>
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{% if product.image %}{{ product.image.url }}
+                    {% elif product.image_out_source %}{{ product.image_out_source }}
+                    {% else %}{% static 'img/no_image.png' %}{% endif %}">
+                </a>
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td><a href="{% url 'cart_remove' product.id %}">Remove</a></td>
+            <td class="num">{{ item.price }} Сом</td>
+            <td class="num">{{ item.total_price }} Сом</td>
+        </tr>
+    {% endwith %}
+{% endfor %}
+
+    <tr class="total">
+    <td>Total</td>
+    <td colspan="4"></td>
+    <td class="num">{{ cart.get_total_price }} Сом</td>
+    </tr>
+</tbody>
+</table>
+<p class="text-right">
+    <a href="{% url 'category_list' %}" class="button light">Continue shopping</a>
+    <a href="{% url 'order_create' %}" class="button">Checkout</a>
+</p>
+

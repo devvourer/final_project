@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Search {% endblock %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+    {% for product in products %}
+        <div class="card">
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <a style="color:black" href="{% url 'product_detail' product.id %}">{{ product.title }}</a>
+                </blockquote>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

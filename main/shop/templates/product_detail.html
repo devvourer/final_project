@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+{% load static %}
+{% block content %}
+<div class="product-detail">
+        <img src="{% if product.image %} {{ product.image.url }}
+        {% elif product.image_out_source %} {{ product.image_out_source }}
+        {% else %} {% static 'img/no_image.png' %} {% endif %}">
+        <h1>{{ product.title }}</h1>
+        <h2>
+            <a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a><br>
+
+        </h2>
+        <p class="price">{{ product.price }} Сом</p>
+            <form action="{% url 'cart_add' product.id %}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Add to cart">
+            </form>
+
+    {{ product.description|linebreaks }}
+
+    <div class="commentary">
+        {% for comment in commentary %}
+        <div class="card">
+            {{ comment.body }} - <p class="info">commented by: {{ comment.user }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}

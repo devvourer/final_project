@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+{% block content %}
+<html><body>
+<div id="sidebar">
+    <h3>Categories</h3>
+    <ul>
+        {% for category in categories %}
+        <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<p>.......................／ ＞　フ<br>
+......................| 　_　 _ l<br>
+..................／` ミ＿xノ<br>
+................./　　　　 |<br>
+................/　 ヽ　　 ﾉ<br>
+............. ..│　　|　|　|<br>
+..........／￣|　　 |　|　|<br>
+..........| (￣ヽ＿_ヽ_/__/<br>
+...........＼ 二つ
+</p>
+⠀
+
+</body></html>
+
+{% endblock %}
